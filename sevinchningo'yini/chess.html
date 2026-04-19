@@ -1,0 +1,1680 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassik Shaxmat O'yini</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            font-family: 'Segoe UI', serif;
+            background-color: #faf6ed;
+            background-image:
+                linear-gradient(135deg, rgba(250, 246, 237, 0.92) 0%, rgba(245, 238, 220, 0.88) 50%, rgba(250, 246, 237, 0.92) 100%),
+                url("pexels-cigdem-bilgin-2154409770-33647013.jpg");
+            background-size: cover, cover;
+            background-position: center, center;
+            background-attachment: fixed, fixed;
+            background-blend-mode: soft-light, normal;
+            color: #3d2817;
+            position: relative;
+            padding: 20px;
+            min-height: 100vh;
+        }
+ 
+        .container {
+            max-width: 1380px;
+            margin: 0 auto;
+        }
+ 
+        h1 {
+            text-align: center;
+            color: #3d2817;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+ 
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 20px;
+        }
+ 
+        /* Oʻyinchilar paneli - CHAP TOMONI */
+        .players-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #8b7355;
+            height: fit-content;
+        }
+ 
+        .players-panel h3 {
+            color: #3d2817;
+            margin: 0 0 20px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #d4a574;
+            padding-bottom: 10px;
+        }
+
+        .player-inputs {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .player-inputs label {
+            display: grid;
+            gap: 6px;
+            color: #3d2817;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .player-inputs input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d4a574;
+            border-radius: 6px;
+            background: #fffaf2;
+            color: #3d2817;
+            font-size: 14px;
+        }
+
+        .player-inputs input:focus {
+            outline: none;
+            border-color: #8b7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.12);
+        }
+
+        .player-input-hint {
+            margin-top: -2px;
+            color: #8b7355;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+ 
+        .player-card {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s;
+        }
+ 
+        .player-card.white {
+            background: #f5ead6;
+            border-color: #d4a574;
+        }
+ 
+        .player-card.white.active {
+            background: #ffe8c0;
+            border-color: #8b7355;
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.3);
+            transform: scale(1.05);
+        }
+ 
+        .player-card.black {
+            background: #2c2c2c;
+            border-color: #555;
+            color: #fff;
+        }
+ 
+        .player-card.black.active {
+            background: #1a1a1a;
+            border-color: #ffd700;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            transform: scale(1.05);
+        }
+ 
+        .player-card.hidden {
+            display: none !important;
+        }
+ 
+        .player-symbol {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+ 
+        .player-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+ 
+        .player-type {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+ 
+        .player-time {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.65);
+        }
+ 
+        /* Asosiy o'yin maydoni */
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Yurilgan yo'llar - taxta tagida */
+        .moves-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #d4a574;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            max-height: 200px;
+        }
+
+        .moves-section h4 {
+            margin: 0 0 10px 0;
+            color: #3d2817;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .moves-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+
+        .move-pair {
+            background: #f5ead6;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #d4a574;
+        }
+
+        .move-pair .num {
+            color: #8b7355;
+            font-weight: bold;
+        }
+
+        /* Mode tanlash inline - Yangi O'yin tugmasidan tagiga ochiladi */
+        .mode-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-20px) scaleY(0.8);
+            transform-origin: top center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .mode-selection.active {
+            max-height: 100px;
+            margin-top: 10px;
+            opacity: 1;
+            transform: translateY(0) scaleY(1);
+            animation: bounceIn 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: translateY(-30px) scaleY(0.5); }
+            50% { transform: translateY(5px) scaleY(1.02); }
+            70% { transform: translateY(-3px) scaleY(0.98); }
+            100% { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .btn-mode {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-mode.robot {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+
+        .btn-mode.robot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-mode.human {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .btn-mode.human:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-mode.selected {
+            box-shadow: 0 0 0 4px #ffd700, 0 4px 15px rgba(0,0,0,0.3);
+            transform: scale(1.05);
+        }
+
+        /* Ism kiritish - o'yin boshlanganda ko'rsatiladi */
+        .player-inputs {
+            display: none;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .player-inputs.active {
+            display: grid;
+        }
+ 
+        /* Mode tanlash modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+ 
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            max-width: 400px;
+        }
+ 
+        .modal-content h2 {
+            color: #3d2817;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+ 
+        .modal-content p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+ 
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+ 
+        .modal-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+ 
+        .modal-btn.robot {
+            background: #ff6b6b;
+            color: white;
+        }
+ 
+        .modal-btn.robot:hover {
+            background: #ee5a52;
+            transform: translateY(-2px);
+        }
+ 
+        .modal-btn.human {
+            background: #4caf50;
+            color: white;
+        }
+ 
+        .modal-btn.human:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+ 
+        /* Shaxmat taxta */
+        .board-container {
+            display: flex;
+            justify-content: center;
+        }
+ 
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0;
+            border: 8px solid #8b5a2b;
+            border-radius: 4px;
+            padding: 0;
+            background-color: #3d2817;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            width: fit-content;
+        }
+ 
+        .square {
+            width: 68px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            user-select: none;
+            position: relative;
+        }
+ 
+        .square.light {
+            background-color: #f5deb3;
+        }
+ 
+        .square.dark {
+            background-color: #d2b48c;
+        }
+ 
+        .square:hover {
+            filter: brightness(1.1);
+        }
+ 
+        .square.selected {
+            background-color: #ffd700;
+            border: 2px solid #ff8c00;
+            box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+ 
+        /* Yurish mumkin bo'lgan joylar */
+        .square.possible-move::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+ 
+        .square.possible-capture::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ff6b6b;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+ 
+        /* Oʻng tomoni - Kontrol paneli */
+        .control-panel {
+            background: rgba(255, 255, 255, 0.96);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+            border: 2px solid #8b7355;
+            height: fit-content;
+        }
+ 
+        .control-panel h3 {
+            color: #3d2817;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+ 
+        .move-counter {
+            background: #f5ead6;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+            border: 1px solid #d4a574;
+        }
+ 
+        .move-counter-label {
+            color: #666;
+            font-size: 12px;
+        }
+ 
+        .move-counter-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3d2817;
+        }
+ 
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+ 
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+ 
+        .btn-new-game {
+            background: #2196f3;
+            color: white;
+        }
+ 
+        .btn-new-game:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+        }
+ 
+        .btn-reset {
+            background: #ff9800;
+            color: white;
+        }
+ 
+        .btn-reset:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+        }
+
+        .btn-save {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+        }
+
+        .btn-save:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+ 
+        .history-card,
+        .rating-card,
+        .moves-card {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px;
+            border-radius: 10px;
+            border: 2px solid #d4a574;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .moves-card {
+            max-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .moves-card h3 {
+            margin-top: 0;
+            margin-bottom: 14px;
+            font-size: 16px;
+            color: #3d2817;
+        }
+
+        .moves-list {
+            overflow-y: auto;
+            max-height: 240px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .moves-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .moves-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .moves-list::-webkit-scrollbar-thumb {
+            background: #d4a574;
+            border-radius: 3px;
+        }
+
+        .move-item {
+            display: grid;
+            grid-template-columns: 30px 1fr 1fr;
+            gap: 8px;
+            padding: 6px 8px;
+            border-bottom: 1px solid #eee;
+            color: #3d2817;
+        }
+
+        .move-item:nth-child(odd) {
+            background: #f9f6f1;
+        }
+
+        .move-number {
+            color: #8b7355;
+            font-weight: bold;
+        }
+
+        .move-white,
+        .move-black {
+            color: #3d2817;
+        }
+
+        .history-card h3,
+        .rating-card h3 {
+            margin-top: 0;
+            margin-bottom: 14px;
+            font-size: 16px;
+            color: #3d2817;
+        }
+
+        .game-item,
+        .player-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #f7f1e8;
+            border: 1px solid #e2d3bd;
+        }
+
+        .game-item {
+            display: grid;
+            gap: 6px;
+        }
+
+        .game-white,
+        .game-black,
+        .game-result,
+        .player-name,
+        .player-elo {
+            display: block;
+            font-size: 13px;
+            color: #3d2817;
+        }
+
+        .game-result {
+            text-align: right;
+            font-weight: 700;
+            color: #8b5a2b;
+        }
+
+        .player-item.white {
+            background: #fdf5e6;
+            border-left: 4px solid #d4a574;
+        }
+
+        .player-item.black {
+            background: #f1efe9;
+            border-left: 4px solid #8b7355;
+        }
+
+        .game-status {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            color: #3d2817;
+            border-left: 4px solid #2196f3;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+ 
+        .game-status.check {
+            background: #fff3cd;
+            border-left-color: #ff9800;
+        }
+ 
+        .game-status.checkmate {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Board overlay - saqlash vaqtida to'liq qorong'ulashish */
+        .board-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1a1a1a;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            z-index: 50;
+        }
+
+        .board-overlay.active {
+            display: flex;
+        }
+
+        .paused-text {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .btn-resume {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            padding: 16px 32px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-resume:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        .board-container {
+            position: relative;
+        }
+ 
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #8b5a2b;
+            font-size: 12px;
+            border-top: 2px solid #d4a574;
+            padding-top: 15px;
+        }
+ 
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .players-panel {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .players-panel h3,
+            .player-inputs {
+                grid-column: 1 / -1;
+            }
+        }
+ 
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+ 
+            .players-panel {
+                grid-template-columns: 1fr;
+            }
+ 
+            .square {
+                width: 52px;
+                height: 52px;
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>♔ KLASSIK SHAXMAT ♚</h1>
+ 
+        <div class="main-grid">
+            <!-- CHAP: Oʻyinchilar paneli -->
+            <div class="players-panel">
+                <h3>Oʻyinchilar</h3>
+
+                <div class="player-inputs">
+                    <label for="whiteNameInput">
+                        Oq o'yinchi ismi
+                        <input type="text" id="whiteNameInput" placeholder="Masalan: Oppog'oy">
+                    </label>
+                    <label id="blackNameWrapper" for="blackNameInput">
+                        Qora o'yinchi ismi
+                        <input type="text" id="blackNameInput" placeholder="Masalan: Qoraqalpoq">
+                    </label>
+                    <div class="player-input-hint">Ismlar birinchi kiritilsin. Misol uchun Oppog'oy va Qoraqalpoq.</div>
+                </div>
+                
+                <div class="player-card white hidden" id="whitePlayerCard">
+                    <div class="player-symbol">♔</div>
+                    <div class="player-name" id="whiteName">Siz</div>
+                    <div class="player-type" id="whiteType">Odam</div>
+                    <div class="player-time" id="whiteTime">05:00</div>
+                </div>
+ 
+                <div class="player-card black hidden" id="blackPlayerCard">
+                    <div class="player-symbol">♚</div>
+                    <div class="player-name" id="blackName">Robotik</div>
+                    <div class="player-type" id="blackType">Robot</div>
+                    <div class="player-time" id="blackTime">05:00</div>
+                </div>
+            </div>
+ 
+            <div class="game-area">
+                <div class="board-container">
+                    <div class="board" id="board"></div>
+                    <div class="board-overlay" id="boardOverlay">
+                        <div class="paused-text">⏸ O'yin to'xtatildi</div>
+                        <button class="btn-resume" onclick="resumeGame()">▶ Davom etish</button>
+                    </div>
+                </div>
+
+                <div class="moves-section" id="movesSection">
+                    <h4>📋 Yurilgan yo'llar</h4>
+                    <div class="moves-inline" id="movesList">
+                        <div style="color: #999; text-align: center; width: 100%; font-style: italic;">Hali yurish yo'q</div>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="control-panel">
+                <h3>O'yin</h3>
+                
+                <div class="move-counter">
+                    <div class="move-counter-label">Harakat</div>
+                    <div class="move-counter-value" id="moveCount">0</div>
+                </div>
+ 
+                <div class="controls">
+                    <button class="btn-new-game" id="btnNewGame" onclick="toggleModeSelection()">🆕 Yangi O'yin</button>
+                    <button class="btn-reset" onclick="resetGame()">🔄 Qaytadan boshlash</button>
+                    <button class="btn-save" onclick="saveGame()">💾 Saqlash</button>
+                </div>
+
+                <div class="mode-selection" id="modeSelection">
+                    <button class="btn-mode robot" onclick="selectMode('robot')">🤖 Robot bilan</button>
+                    <button class="btn-mode human" onclick="selectMode('human')">👤 Do'stim bilan</button>
+                </div>
+
+                <div class="card history-card">
+                    <h3>O'yinlar tarixi</h3>
+                    <div id="gamesList"></div>
+                </div>
+
+                <div class="card rating-card">
+                    <h3>O'yinchilar statistikasi</h3>
+                    <div id="playersList"></div>
+                </div>
+
+
+                <div class="game-status" id="gameStatus">
+                    "🆕 Yangi O'yin" tugmasini bosing va o'yni boshlang
+                </div>
+            </div>
+        </div>
+ 
+ 
+        <footer>
+            ♟ Klassik Shaxmat O'yini • Qadimgi Uslub • © 2026 ♟
+        </footer>
+    </div>
+ 
+    <script>
+        // ============ KONSTANTA VA GLOBAL O'ZGARUVCHILAR ============
+        const PIECES = {
+            'WP': '♙', 'WN': '♘', 'WB': '♗', 'WR': '♖', 'WQ': '♕', 'WK': '♔',
+            'BP': '♟', 'BN': '♞', 'BB': '♝', 'BR': '♜', 'BQ': '♛', 'BK': '♚'
+        };
+ 
+        let board = [];
+        let selectedSquare = null;
+        let possibleMoves = [];
+        let currentPlayer = 'W';
+        let whiteTime = 300;
+        let blackTime = 300;
+        let gameActive = false;
+        let timerInterval = null;
+        let moveCount = 0;
+        let gameMode = null; // 'robot' yoki 'human'
+        let castlingState = createInitialCastlingState();
+        let movesHistory = []; // Yurilgan yo'llar tarixi
+ 
+        // ============ BOSHLANG'ICH TAXTANI YARATISH ============
+        function createInitialBoard() {
+            const newBoard = Array(8).fill(null).map(() => Array(8).fill(null));
+            newBoard[0] = ['BR', 'BN', 'BB', 'BQ', 'BK', 'BB', 'BN', 'BR'];
+            newBoard[1] = Array(8).fill('BP');
+            newBoard[6] = Array(8).fill('WP');
+            newBoard[7] = ['WR', 'WN', 'WB', 'WQ', 'WK', 'WB', 'WN', 'WR'];
+            return newBoard;
+        }
+
+        function createInitialCastlingState() {
+            return {
+                W: { kingMoved: false, rookLeftMoved: false, rookRightMoved: false },
+                B: { kingMoved: false, rookLeftMoved: false, rookRightMoved: false }
+            };
+        }
+
+        function isInsideBoard(row, col) {
+            return row >= 0 && row < 8 && col >= 0 && col < 8;
+        }
+
+        function cloneBoard(boardState) {
+            return boardState.map(row => [...row]);
+        }
+
+        function findKing(color, boardState = board) {
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    if (boardState[row][col] === `${color}K`) {
+                        return [row, col];
+                    }
+                }
+            }
+            return null;
+        }
+
+        const players = [
+            { name: 'Oppog\'oy', color: 'W', elo: 1840 },
+            { name: 'Qoraqalpoq', color: 'B', elo: 1790 }
+        ];
+
+        const gamesHistory = [];
+
+        function updatePlayersList(mode = gameMode || 'robot') {
+            const playersList = document.getElementById('playersList');
+            const names = getPlayerNames(mode);
+            const currentPlayers = [
+                { name: names.white, color: 'W', elo: players[0].elo },
+                { name: names.black, color: 'B', elo: players[1].elo }
+            ];
+            playersList.innerHTML = currentPlayers.map(player => `
+                <div class="player-item ${player.color === 'W' ? 'white' : 'black'}">
+                    <span class="player-name">${player.name}</span>
+                    <span class="player-elo">Harakatlar: 0</span>
+                </div>
+            `).join('');
+        }
+
+        function updateGamesList() {
+            const gamesList = document.getElementById('gamesList');
+            if (gamesHistory.length === 0) {
+                gamesList.innerHTML = '<div class="game-item"><div class="game-result">Hali o\'yinlar yo\'q</div></div>';
+                return;
+            }
+            gamesList.innerHTML = gamesHistory.map(game => `
+                <div class="game-item">
+                    <div class="game-white">⚪ ${game.white}</div>
+                    <div class="game-black">⚫ ${game.black}</div>
+                    <div class="game-result">${game.result} • ${game.date}</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleBlackNameInput(show) {
+            const wrapper = document.getElementById('blackNameWrapper');
+            if (wrapper) {
+                wrapper.style.display = show ? 'grid' : 'none';
+            }
+        }
+
+        function getPlayerNames(mode = gameMode || 'robot') {
+            const whiteInput = document.getElementById('whiteNameInput');
+            const blackInput = document.getElementById('blackNameInput');
+            const whiteName = whiteInput.value.trim();
+            const blackName = blackInput.value.trim();
+
+            return {
+                white: whiteName || (mode === 'robot' ? 'Siz' : 'Oq O\'yinchi'),
+                black: mode === 'robot' ? 'Robotik' : (blackName || 'Qora O\'yinchi')
+            };
+        }
+
+        function syncPlayerNames(mode = gameMode || 'robot') {
+            const names = getPlayerNames(mode);
+            document.getElementById('whiteName').textContent = names.white;
+            document.getElementById('blackName').textContent = names.black;
+            document.getElementById('whiteType').textContent = 'Odam';
+            document.getElementById('blackType').textContent = mode === 'robot' ? 'Robot' : 'Odam';
+        }
+
+        function validatePlayerInputs(mode) {
+            const whiteInput = document.getElementById('whiteNameInput');
+            const blackInput = document.getElementById('blackNameInput');
+            const whiteName = whiteInput.value.trim();
+            const blackName = blackInput.value.trim();
+
+            if (!whiteName) {
+                document.getElementById('gameStatus').textContent = 'Avval oq o\'yinchi ismini kiriting.';
+                whiteInput.focus();
+                return false;
+            }
+
+            if (mode === 'human' && !blackName) {
+                document.getElementById('gameStatus').textContent = 'Odam rejimi uchun qora o\'yinchi ismi ham kerak.';
+                blackInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        function getAttackMoves(row, col, boardState = board) {
+            const piece = boardState[row][col];
+            if (!piece) return [];
+
+            const color = piece[0];
+            const type = piece[1];
+            const moves = [];
+            const addSlidingMoves = (directions) => {
+                for (let [dr, dc] of directions) {
+                    let nextRow = row + dr;
+                    let nextCol = col + dc;
+
+                    while (isInsideBoard(nextRow, nextCol)) {
+                        const target = boardState[nextRow][nextCol];
+                        if (!target) {
+                            moves.push([nextRow, nextCol]);
+                        } else {
+                            if (target[0] !== color) {
+                                moves.push([nextRow, nextCol]);
+                            }
+                            break;
+                        }
+
+                        nextRow += dr;
+                        nextCol += dc;
+                    }
+                }
+            };
+
+            if (type === 'P') {
+                const direction = color === 'W' ? -1 : 1;
+                for (let attackCol of [col - 1, col + 1]) {
+                    const attackRow = row + direction;
+                    if (isInsideBoard(attackRow, attackCol)) {
+                        moves.push([attackRow, attackCol]);
+                    }
+                }
+            } else if (type === 'N') {
+                for (let [dr, dc] of [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]) {
+                    const nextRow = row + dr;
+                    const nextCol = col + dc;
+                    if (isInsideBoard(nextRow, nextCol)) {
+                        const target = boardState[nextRow][nextCol];
+                        if (!target || target[0] !== color) {
+                            moves.push([nextRow, nextCol]);
+                        }
+                    }
+                }
+            } else if (type === 'B') {
+                addSlidingMoves([[1, 1], [1, -1], [-1, 1], [-1, -1]]);
+            } else if (type === 'R') {
+                addSlidingMoves([[1, 0], [-1, 0], [0, 1], [0, -1]]);
+            } else if (type === 'Q') {
+                addSlidingMoves([[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]);
+            } else if (type === 'K') {
+                for (let [dr, dc] of [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]]) {
+                    const nextRow = row + dr;
+                    const nextCol = col + dc;
+                    if (isInsideBoard(nextRow, nextCol)) {
+                        const target = boardState[nextRow][nextCol];
+                        if (!target || target[0] !== color) {
+                            moves.push([nextRow, nextCol]);
+                        }
+                    }
+                }
+            }
+
+            return moves;
+        }
+
+        function isSquareUnderAttack(row, col, attackerColor, boardState = board) {
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const piece = boardState[r][c];
+                    if (piece && piece[0] === attackerColor) {
+                        const attackMoves = getAttackMoves(r, c, boardState);
+                        if (attackMoves.some(([attackRow, attackCol]) => attackRow === row && attackCol === col)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        // ============ YURISH MUMKIN BO'LGAN JOYLARI TOPISH ============
+        function getPossibleMoves(row, col) {
+            const piece = board[row][col];
+            if (!piece) return [];
+
+            const color = piece[0];
+            const type = piece[1];
+            const candidateMoves = [];
+
+            function addMove(r, c) {
+                if (isInsideBoard(r, c)) {
+                    const target = board[r][c];
+                    if (!target || target[0] !== color) {
+                        candidateMoves.push({ row: r, col: c });
+                    }
+                    return !target;
+                }
+                return false;
+            }
+ 
+            if (type === 'P') {
+                // PESHKA
+                const direction = color === 'W' ? -1 : 1;
+                const startRow = color === 'W' ? 6 : 1;
+                const oneStepRow = row + direction;
+                
+                // Bitta oldinga
+                if (isInsideBoard(oneStepRow, col) && board[oneStepRow][col] === null) {
+                    candidateMoves.push({ row: oneStepRow, col });
+                    
+                    // Ikki qadam boshlang'ichdan
+                    const twoStepRow = row + 2 * direction;
+                    if (row === startRow && isInsideBoard(twoStepRow, col) && board[twoStepRow][col] === null) {
+                        candidateMoves.push({ row: twoStepRow, col });
+                    }
+                }
+                
+                // Diagonali ye olish
+                for (let c of [col - 1, col + 1]) {
+                    if (isInsideBoard(oneStepRow, c)) {
+                        const target = board[oneStepRow][c];
+                        if (target && target[0] !== color) {
+                            candidateMoves.push({ row: oneStepRow, col: c });
+                        }
+                    }
+                }
+            } else if (type === 'N') {
+                // OT
+                const offsets = [[-2,-1], [-2,1], [-1,-2], [-1,2], [1,-2], [1,2], [2,-1], [2,1]];
+                for (let [dr, dc] of offsets) {
+                    addMove(row + dr, col + dc);
+                }
+            } else if (type === 'B') {
+                // FIL
+                for (let [dr, dc] of [[1,1], [1,-1], [-1,1], [-1,-1]]) {
+                    for (let i = 1; i < 8; i++) {
+                        if (!addMove(row + dr*i, col + dc*i)) break;
+                    }
+                }
+            } else if (type === 'R') {
+                // TURA
+                for (let [dr, dc] of [[1,0], [-1,0], [0,1], [0,-1]]) {
+                    for (let i = 1; i < 8; i++) {
+                        if (!addMove(row + dr*i, col + dc*i)) break;
+                    }
+                }
+            } else if (type === 'Q') {
+                // MALIKA
+                for (let [dr, dc] of [[1,0], [-1,0], [0,1], [0,-1], [1,1], [1,-1], [-1,1], [-1,-1]]) {
+                    for (let i = 1; i < 8; i++) {
+                        if (!addMove(row + dr*i, col + dc*i)) break;
+                    }
+                }
+            } else if (type === 'K') {
+                // QIROL
+                for (let [dr, dc] of [[0,1], [0,-1], [1,0], [-1,0], [1,1], [1,-1], [-1,1], [-1,-1]]) {
+                    addMove(row + dr, col + dc);
+                }
+
+                const homeRow = color === 'W' ? 7 : 0;
+                const enemyColor = color === 'W' ? 'B' : 'W';
+                const rights = castlingState[color];
+
+                if (row === homeRow && col === 4 && rights && !rights.kingMoved && !isSquareUnderAttack(homeRow, 4, enemyColor)) {
+                    const castleOptions = [
+                        {
+                            side: 'king',
+                            rookCol: 7,
+                            rookMoved: rights.rookRightMoved,
+                            emptyCols: [5, 6],
+                            safeCols: [5, 6],
+                            targetCol: 6
+                        },
+                        {
+                            side: 'queen',
+                            rookCol: 0,
+                            rookMoved: rights.rookLeftMoved,
+                            emptyCols: [1, 2, 3],
+                            safeCols: [3, 2],
+                            targetCol: 2
+                        }
+                    ];
+
+                    castleOptions.forEach(option => {
+                        const rookPiece = board[homeRow][option.rookCol];
+                        const pathIsClear = option.emptyCols.every(emptyCol => board[homeRow][emptyCol] === null);
+                        const safePath = option.safeCols.every(safeCol => !isSquareUnderAttack(homeRow, safeCol, enemyColor));
+
+                        if (rookPiece === `${color}R` && !option.rookMoved && pathIsClear && safePath) {
+                            candidateMoves.push({ row: homeRow, col: option.targetCol, castle: option.side });
+                        }
+                    });
+                }
+            }
+
+            return candidateMoves.filter(move => {
+                const simulatedBoard = cloneBoard(board);
+                const movingPiece = simulatedBoard[row][col];
+                simulatedBoard[row][col] = null;
+                simulatedBoard[move.row][move.col] = movingPiece;
+
+                if (move.castle) {
+                    if (move.castle === 'king') {
+                        simulatedBoard[row][7] = null;
+                        simulatedBoard[row][5] = `${color}R`;
+                    } else {
+                        simulatedBoard[row][0] = null;
+                        simulatedBoard[row][3] = `${color}R`;
+                    }
+                }
+
+                const kingPosition = movingPiece[1] === 'K' ? [move.row, move.col] : findKing(color, simulatedBoard);
+                return kingPosition && !isSquareUnderAttack(kingPosition[0], kingPosition[1], color === 'W' ? 'B' : 'W', simulatedBoard);
+            });
+        }
+ 
+        // ============ TAXTANI CHIZISH ============
+        function drawBoard() {
+            const boardEl = document.getElementById('board');
+            boardEl.innerHTML = '';
+ 
+            board.forEach((row, rowIdx) => {
+                row.forEach((piece, colIdx) => {
+                    const square = document.createElement('div');
+                    square.className = 'square';
+                    
+                    const isLight = (rowIdx + colIdx) % 2 === 0;
+                    square.classList.add(isLight ? 'light' : 'dark');
+ 
+                    if (selectedSquare && selectedSquare[0] === rowIdx && selectedSquare[1] === colIdx) {
+                        square.classList.add('selected');
+                    }
+ 
+                    // Mumkin bo'lgan harakatlarni ko'rsatish
+                    const isMove = possibleMoves.some(m => m.row === rowIdx && m.col === colIdx);
+                    if (isMove) {
+                        const target = board[rowIdx][colIdx];
+                        if (target) {
+                            square.classList.add('possible-capture');
+                        } else {
+                            square.classList.add('possible-move');
+                        }
+                    }
+ 
+                    square.textContent = piece ? PIECES[piece] : '';
+                    square.onclick = () => handleSquareClick(rowIdx, colIdx);
+                    boardEl.appendChild(square);
+                });
+            });
+        }
+ 
+        // ============ KVADRATGA KLIK ============
+        function handleSquareClick(row, col) {
+            const humanCanMove = gameMode === 'human' || currentPlayer === 'W';
+            if (!gameActive || !humanCanMove) return;
+
+            if (selectedSquare) {
+                const [fromRow, fromCol] = selectedSquare;
+                const selectedMove = possibleMoves.find(m => m.row === row && m.col === col);
+
+                if (selectedMove) {
+                    movePiece(fromRow, fromCol, row, col, selectedMove);
+                    selectedSquare = null;
+                    possibleMoves = [];
+                    finishTurn();
+
+                    if (gameMode === 'robot' && currentPlayer === 'B') {
+                        const thinkTime = Math.floor(Math.random() * 4000) + 1000; // 1-5 soniya
+                        setTimeout(robotMove, thinkTime);
+                    }
+                } else {
+                    const piece = board[row][col];
+                    if (piece && piece[0] === currentPlayer) {
+                        selectedSquare = [row, col];
+                        possibleMoves = getPossibleMoves(row, col);
+                        drawBoard();
+                    } else {
+                        selectedSquare = null;
+                        possibleMoves = [];
+                        drawBoard();
+                    }
+                }
+            } else {
+                const piece = board[row][col];
+                if (piece && piece[0] === currentPlayer) {
+                    selectedSquare = [row, col];
+                    possibleMoves = getPossibleMoves(row, col);
+                    drawBoard();
+                }
+            }
+        }
+
+        // ============ FIGURA HARAKAT QILISH ============
+        function movePiece(fromRow, fromCol, toRow, toCol, moveMeta = {}) {
+            const movingPiece = board[fromRow][fromCol];
+            const color = movingPiece[0];
+            const pieceType = movingPiece[1];
+            const capturedPiece = board[toRow][toCol];
+
+            // Yurishni tarixga yozish
+            const moveNotation = formatMoveNotation(pieceType, fromRow, fromCol, toRow, toCol, capturedPiece, moveMeta);
+            recordMove(color, moveNotation);
+
+            board[toRow][toCol] = movingPiece;
+            board[fromRow][fromCol] = null;
+
+            if (movingPiece[1] === 'K') {
+                castlingState[color].kingMoved = true;
+
+                if (moveMeta.castle === 'king') {
+                    board[fromRow][5] = board[fromRow][7];
+                    board[fromRow][7] = null;
+                    castlingState[color].rookRightMoved = true;
+                } else if (moveMeta.castle === 'queen') {
+                    board[fromRow][3] = board[fromRow][0];
+                    board[fromRow][0] = null;
+                    castlingState[color].rookLeftMoved = true;
+                }
+            }
+
+            if (movingPiece[1] === 'R') {
+                if (color === 'W' && fromRow === 7 && fromCol === 0) {
+                    castlingState.W.rookLeftMoved = true;
+                } else if (color === 'W' && fromRow === 7 && fromCol === 7) {
+                    castlingState.W.rookRightMoved = true;
+                } else if (color === 'B' && fromRow === 0 && fromCol === 0) {
+                    castlingState.B.rookLeftMoved = true;
+                } else if (color === 'B' && fromRow === 0 && fromCol === 7) {
+                    castlingState.B.rookRightMoved = true;
+                }
+            }
+        }
+
+        function finishTurn() {
+            moveCount++;
+            currentPlayer = currentPlayer === 'W' ? 'B' : 'W';
+            drawBoard();
+            updateUI();
+            updateMovesList();
+        }
+
+        // ============ YURISH NOTATSIYASI ============
+        function formatMoveNotation(pieceType, fromRow, fromCol, toRow, toCol, capturedPiece, moveMeta) {
+            const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+            const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+            const from = files[fromCol] + ranks[fromRow];
+            const to = files[toCol] + ranks[toRow];
+
+            if (moveMeta.castle === 'king') return 'O-O';
+            if (moveMeta.castle === 'queen') return 'O-O-O';
+
+            const pieceSymbols = {
+                'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': ''
+            };
+
+            let notation = pieceSymbols[pieceType] || '';
+            if (capturedPiece) {
+                if (pieceType === 'P') notation = files[fromCol];
+                notation += 'x';
+            }
+            notation += to;
+
+            return notation;
+        }
+
+        // ============ YURISHNI TARIXGA YOZISH ============
+        function recordMove(color, notation) {
+            if (color === 'W') {
+                // Oq o'yinchi yangi yurish - yangi qator
+                movesHistory.push({
+                    number: Math.floor(moveCount / 2) + 1,
+                    white: notation,
+                    black: null
+                });
+            } else {
+                // Qora o'yinchi ohirgi yurishni to'ldirish
+                if (movesHistory.length > 0) {
+                    movesHistory[movesHistory.length - 1].black = notation;
+                } else {
+                    movesHistory.push({
+                        number: 1,
+                        white: '...',
+                        black: notation
+                    });
+                }
+            }
+        }
+
+        // ============ YURILGAN YO'LLAR RO'YXATINI YANGILASH ============
+        function updateMovesList() {
+            const movesList = document.getElementById('movesList');
+            if (movesHistory.length === 0) {
+                movesList.innerHTML = '<div style="color: #999; text-align: center; width: 100%; font-style: italic;">Hali yurish yo\'q</div>';
+                return;
+            }
+
+            // Inline format: 1. e4 e5 2. ♘f3 ♞c6
+            movesList.innerHTML = movesHistory.map((move) => `
+                <span class="move-pair">
+                    <span class="num">${move.number}.</span>
+                    <span>${move.white || ''}</span>
+                    <span>${move.black ? ' ' + move.black : ''}</span>
+                </span>
+            `).join('');
+
+            // Oxirgi yurishni ko'rish uchun scroll
+            movesList.scrollLeft = movesList.scrollWidth;
+        }
+
+        // ============ ROBOT HARAKAT ============
+        function robotMove() {
+            if (!gameActive || gameMode !== 'robot' || currentPlayer !== 'B') return;
+
+            const moves = [];
+            
+            // Barcha mumkin bo'lgan harakatlarni topish
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const piece = board[r][c];
+                    if (piece && piece[0] === 'B') {
+                        const pMoves = getPossibleMoves(r, c);
+                        pMoves.forEach(m => {
+                            moves.push({ fromRow: r, fromCol: c, toRow: m.row, toCol: m.col, meta: m });
+                        });
+                    }
+                }
+            }
+
+            if (moves.length > 0) {
+                const move = moves[Math.floor(Math.random() * moves.length)];
+                movePiece(move.fromRow, move.fromCol, move.toRow, move.toCol, move.meta);
+                finishTurn();
+            }
+        }
+ 
+        // ============ MODE TANLASH INLINE ============
+        // Avto-start uchun o'zgaruvchilar
+        let pendingMode = null;
+
+        function toggleModeSelection() {
+            const modeSelection = document.getElementById('modeSelection');
+            const btnNewGame = document.getElementById('btnNewGame');
+
+            if (modeSelection.classList.contains('active')) {
+                modeSelection.classList.remove('active');
+                btnNewGame.textContent = '🆕 Yangi O\'yin';
+                pendingMode = null;
+            } else {
+                modeSelection.classList.add('active');
+                btnNewGame.textContent = '❌ Bekor qilish';
+                // Ism kiritish maydonlarini ko'rsatish
+                document.querySelector('.player-inputs').classList.add('active');
+            }
+        }
+
+        // Ismlar kiritilganda avtomatik o'yin boshlash
+        function checkAutoStart() {
+            const whiteName = document.getElementById('whiteNameInput').value.trim();
+            const blackName = document.getElementById('blackNameInput').value.trim();
+
+            // Agar mode tanlangan bo'lsa va ismlar kiritilgan bo'lsa
+            if (pendingMode && whiteName && (pendingMode === 'robot' || blackName)) {
+                startGame(pendingMode);
+            }
+        }
+
+        function selectMode(mode) {
+            pendingMode = mode;
+            // Tugmalarni faol holatga o'tkazish
+            document.querySelectorAll('.btn-mode').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+
+            // Agar ismlar allaqachon kiritilgan bo'lsa, darhol boshlash
+            checkAutoStart();
+        }
+
+        function startGame(mode) {
+            // O'yin allaqachon saqlangan bo'lsa, yangi o'yin boshlash
+            if (!gameActive && gameMode !== null) {
+                resetGame();
+            }
+
+            if (!validatePlayerInputs(mode)) {
+                return;
+            }
+
+            gameMode = mode;
+            toggleBlackNameInput(mode === 'human');
+            pendingMode = null;
+
+            // Mode tanlashni yashirish
+            document.getElementById('modeSelection').classList.remove('active');
+            document.getElementById('btnNewGame').textContent = '🆕 Yangi O\'yin';
+
+            // Ism kiritish maydonlarini yashirish
+            document.querySelector('.player-inputs').classList.remove('active');
+
+            board = createInitialBoard();
+            selectedSquare = null;
+            possibleMoves = [];
+            currentPlayer = 'W';
+            whiteTime = 300;
+            blackTime = 300;
+            moveCount = 0;
+            gameActive = true;
+            castlingState = createInitialCastlingState();
+            movesHistory = []; // Yangi o'yin boshlanganda tarix tozalanadi
+
+            syncPlayerNames(mode);
+
+            drawBoard();
+            updateUI();
+            updatePlayersList();
+            updateGamesList();
+            updateMovesList(); // Yurilgan yo'llar ro'yxati tozalanadi
+
+            document.getElementById('whitePlayerCard').classList.remove('hidden');
+            document.getElementById('blackPlayerCard').classList.remove('hidden');
+
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateTime, 1000);
+        }
+ 
+        // ============ VAQT FORMATLASHTIRISH ============
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+ 
+        // ============ VAQTNI YANGILASH ============
+        function updateTime() {
+            if (gameActive) {
+                if (currentPlayer === 'W') {
+                    if (whiteTime > 0) whiteTime--;
+                } else {
+                    if (blackTime > 0) blackTime--;
+                }
+            }
+            
+            document.getElementById('whiteTime').textContent = formatTime(whiteTime);
+            document.getElementById('blackTime').textContent = formatTime(blackTime);
+        }
+ 
+        // ============ UI NI YANGILASH ============
+        function updateUI() {
+            document.getElementById('moveCount').textContent = moveCount;
+            
+            // Faol o'yinchini belgilash
+            document.getElementById('whitePlayerCard').classList.toggle('active', currentPlayer === 'W');
+            document.getElementById('blackPlayerCard').classList.toggle('active', currentPlayer === 'B');
+ 
+            // O'yin status
+            if (gameActive) {
+                if (currentPlayer === 'W' && gameMode === 'robot') {
+                    document.getElementById('gameStatus').textContent = 'Sizning navbatiz ♔';
+                } else if (currentPlayer === 'B' && gameMode === 'robot') {
+                    document.getElementById('gameStatus').textContent = 'Robotik o\'ynayapti 🤖';
+                } else {
+                    document.getElementById('gameStatus').textContent = 
+                        currentPlayer === 'W' ? 'Oq o\'yinchi harakat qilsin ♔' : 'Qora o\'yinchi harakat qilsin ♚';
+                }
+            }
+        }
+ 
+        // ============ OYINNI SAQLASH (TO'XTATISH) ============
+        function saveGame() {
+            if (!gameActive) {
+                // O'yin boshlanmagan bo'lsa, yangi o'yinni boshlash
+                toggleModeSelection();
+                return;
+            }
+
+            // O'yinni to'xtatish
+            gameActive = false;
+            if (timerInterval) clearInterval(timerInterval);
+
+            // Board qorong'ulashishini ko'rsatish
+            document.getElementById('boardOverlay').classList.add('active');
+            document.getElementById('gameStatus').textContent = '⏸ O\'yin saqlandi. Yangi o\'yin uchun "Yangi O\'yin" tugmasini bosing.';
+
+            // O'yin tarixiga saqlash
+            const newGame = {
+                id: gamesHistory.length + 1,
+                white: players[0].name,
+                black: players[1].name,
+                result: currentPlayer === 'W' ? '1-0 (saqlandi)' : '0-1 (saqlandi)',
+                date: new Date().toISOString().split('T')[0],
+                moves: moveCount
+            };
+            gamesHistory.unshift(newGame);
+            updateGamesList();
+        }
+
+        // ============ OYINNI DAVOM ETISH ============
+        function resumeGame() {
+            if (gameMode === null) return;
+
+            gameActive = true;
+            document.getElementById('boardOverlay').classList.remove('active');
+            document.getElementById('gameStatus').textContent = '▶ O\'yin davom etmoqda';
+
+            // Timer qayta ishga tushirish
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateTime, 1000);
+
+            // Robot navbatida bo'lsa, robot yurishini davom ettirish
+            if (gameMode === 'robot' && currentPlayer === 'B') {
+                const thinkTime = Math.floor(Math.random() * 4000) + 1000; // 1-5 soniya
+                setTimeout(robotMove, thinkTime);
+            }
+        }
+
+        // ============ OYINNI QAYTADAN BOSHLASH ============
+        function resetGame() {
+            // Overlay ni yashirish agar ochiq bo'lsa
+            document.getElementById('boardOverlay').classList.remove('active');
+
+            // Mode tanlashni yashirish
+            document.getElementById('modeSelection').classList.remove('active');
+            document.getElementById('btnNewGame').textContent = '🆕 Yangi O\'yin';
+
+            // Ism kiritish maydonlarini yashirish
+            document.querySelector('.player-inputs').classList.remove('active');
+
+            gameActive = false;
+            board = createInitialBoard();
+            selectedSquare = null;
+            possibleMoves = [];
+            currentPlayer = 'W';
+            whiteTime = 300;
+            blackTime = 300;
+            moveCount = 0;
+            gameMode = null;
+            castlingState = createInitialCastlingState();
+            movesHistory = []; // Yurilgan yo'llar tarixi tozalanadi
+
+            if (timerInterval) clearInterval(timerInterval);
+
+            drawBoard();
+            updateTime();
+            updateUI();
+            updateMovesList(); // Yurilgan yo'llar ro'yxati tozalanadi
+            toggleBlackNameInput(true);
+            syncPlayerNames('robot');
+            updatePlayersList();
+            updateGamesList();
+            
+            document.getElementById('gameStatus').textContent = 'O\'yin boshlanishi uchun "Yangi O\'yin" ni bosing';
+            document.getElementById('whitePlayerCard').classList.remove('active');
+            document.getElementById('blackPlayerCard').classList.remove('active');
+            document.getElementById('whitePlayerCard').classList.add('hidden');
+            document.getElementById('blackPlayerCard').classList.add('hidden');
+        }
+ 
+        // ============ BOSHLANG'ICH YUKLASH ============
+        window.addEventListener('DOMContentLoaded', function() {
+            board = createInitialBoard();
+            castlingState = createInitialCastlingState();
+            drawBoard();
+            updateTime();
+            updateUI();
+            toggleBlackNameInput(true);
+            syncPlayerNames('robot');
+            updatePlayersList();
+            updateGamesList();
+            document.getElementById('whiteNameInput').addEventListener('input', () => {
+                syncPlayerNames();
+                updatePlayersList();
+                checkAutoStart();
+            });
+            document.getElementById('blackNameInput').addEventListener('input', () => {
+                syncPlayerNames();
+                updatePlayersList();
+                checkAutoStart();
+            });
+        });
+    </script>
+</body>
+</html>
